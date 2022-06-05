@@ -1,0 +1,48 @@
+  long long maxSubarraySum(int arr[], int n){
+        //approach 1 n^3 complexity
+        /*
+           we run two loops, first and second loop are for selecting a window 
+           third inner most loop is to add numbers in that window
+           simountaniously max sum will be stored with us
+        */
+        int maxsum=INT_MIN;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=i;j<n;j++)
+            {
+                int windowsum = 0;
+                for(int k=i;k<=j;k++)
+                   windowsum+=arr[k];
+                maxsum=max(windowsum,maxsum);
+            }
+        }
+        return maxsum;
+        //approach 2 n^2 TC
+        /*
+          apart from above approach this one have two loops only
+          we were doing duplicate work in above approach again and again
+          we can esily remove that by just adding the next number in currect window sum
+        */
+        int maxsum =INT_MIN;
+        for(int i=0;i<n;i++)
+        {
+            int currwindowsum=0;
+            for(int j=i;j<n;j++)
+               currwindowsum+=arr[j];// Add the current element to previous computed value To get the subarray sum
+            maxsum=max(maxsum,currwindowsum);
+        }
+        return maxsum;
+        //approach 3 
+        //this is the best approach with n TC complexity
+        //we simply reject the currsum if it gets -ive becoz it can contribute in max sum
+        int currsum=0,maxsum=INT_MIN;
+        for(int i=0;i<n;i++)
+        {
+            currsum+=arr[i];
+            if(currsum>maxsum)
+               maxsum=currsum;
+            if(currsum<0)
+               currsum=0;
+        }
+        return maxsum;
+    }
